@@ -10,34 +10,87 @@
 #include <GL/gl.h>
 #include <iostream>
 
+struct _vertex {
+	float x;
+	float y;
+	float z;
+};
+
+struct _vertex point1;
+struct _vertex point2;
+struct _vertex point3;
+struct _vertex point4;
+struct _vertex point5;
+struct _vertex point6;
+struct _vertex point7;
+struct _vertex point8;
+
 // Constants to define the width/height of the window
 const int WIDTH = 800;
 const int HEIGHT = 800;
 
-void renderCoordinateAxis()
-{
-	// X axis - green color
-	glColor3f(0, 1, 0);
-	glBegin(GL_LINES);
-		// Left side, negative X
-		glVertex2f(-10.0, 0.0);
-		glVertex2f(0.0, 0.0);
+void renderCoordinateAxis(){
+	point1.x += 0.05f;
+	point2.x += 0.05f;
+	point3.x += 0.05f;
+	point4.x += 0.05f;
+	point5.x += 0.05f;
+	point6.x += 0.05f;
+	point7.x += 0.05f;
 
-		// Right side, positive X
-		glVertex2f(0.0, 0.0);
-		glVertex2f(10.0, 0.0);
+	glColor3f(1, 0, 0);
+	glBegin(GL_LINES);
+		// Linha verical esquerda
+		glVertex3f(point1.x, point1.y, point1.z);
+		glVertex3f(point2.x, point2.y, point2.z);
+	glEnd();
+	glBegin(GL_LINES);
+		// Linha horizontal de baixo
+		glVertex3f(point1.x, point1.y, point1.z);
+		glVertex3f(point3.x, point3.y, point3.z);
+	glEnd();
+	glBegin(GL_LINES);
+		// Linha da direita
+		glVertex3f(point3.x, point3.y, point3.z);
+		glVertex3f(point4.x, point4.y, point4.z);
+	glEnd();
+	glBegin(GL_LINES);
+		// Linha de cima
+		glVertex3f(point2.x, point2.y, point2.z);
+		glVertex3f(point4.x, point4.y, point4.z);
 	glEnd();
 
-	// Y axis - blue color
-	glColor3f(0, 0, 1);
 	glBegin(GL_LINES);
-		// Top side, positive Y
-		glVertex2f(0.0, 0.0);
-		glVertex2f(0.0, 10.0);
-
-		// Bottom side, negative Y
-		glVertex2f(0.0, 0.0);
-		glVertex2f(0.0, -10.0);
+		glVertex3f(point3.x, point3.y, point3.z);
+		glVertex3f(point5.x, point5.y, point5.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point5.x, point5.y, point5.z);
+		glVertex3f(point6.x, point6.y, point6.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point4.x, point4.y, point4.z);
+		glVertex3f(point6.x, point6.y, point6.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point6.x, point6.y, point6.z);
+		glVertex3f(point7.x, point7.y, point7.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point2.x, point2.y, point2.z);
+		glVertex3f(point7.x, point7.y, point7.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point7.x, point7.y, point7.z);
+		glVertex3f(point8.x, point8.y, point8.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point5.x, point5.y, point5.z);
+		glVertex3f(point8.x, point8.y, point8.z);
+	glEnd();
+	glBegin(GL_LINES);
+		glVertex3f(point1.x, point1.y, point1.z);
+		glVertex3f(point8.x, point8.y, point8.z);
 	glEnd();
 }
 
@@ -57,12 +110,6 @@ void display()
 
 	// Render the X and Y axis to guide ourselves.
 	renderCoordinateAxis();
-
-	// Render a red square
-	//        R  G  B
-	glColor3f(1, 0, 0);
-	//        x1    y1    x2     y2
-	glRectf(-1.0f, 1.0f, 1.0f, -1.0f);
 
 	// Start the rendering on a new frame
 	glutSwapBuffers();
@@ -100,6 +147,16 @@ void initView()
 
 int main(int argc, char** argv)
 {
+	point1.x = 0.f, point1.y = 0.f, point1.z = 0.f; // Ponto 0, 0 esquerda baixo
+	point2.x = 0.f, point2.y = 1.f, point2.z = 0.f; // Ponto 0, 1 esquerda cima
+	point3.x = 1.f, point3.y = 0.0f, point3.z = 0.f; // Ponto 1, 0 direita baixo
+	point4.x = 1.f, point4.y = 1.f, point4.z = 0.f; // Ponto 1, 1 direita cima
+
+	point5.x = 1.5f, point5.y = 0.5f, point5.z = 0.f; // Ponto 0, 0 baixo meio de lado
+	point6.x = 1.5f, point6.y = 1.5f, point6.z = 0.f; // Ponto 0, 0 baixo meio de lado
+	point7.x = 0.5f, point7.y = 1.5f, point7.z = 0.f; // Ponto 0, 0 baixo meio de lado
+	point8.x = 0.5f, point8.y = 0.5f, point8.z = 0.f; // Ponto 0, 0 baixo meio de lado
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(WIDTH, HEIGHT);
