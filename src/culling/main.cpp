@@ -14,6 +14,8 @@
 GLfloat rX = -25.0;
 GLfloat rY = 25.0;
 
+bool isBack = true;
+
 void strippedCube()
 {
 	// The coordinates for the vertices of the cube
@@ -31,16 +33,16 @@ void strippedCube()
 
 	glColor3f(0.45f, 0.35f, 0.55f);
 	glBegin(GL_TRIANGLES);
-		glVertex3f(-x, -y, z);
 		glVertex3f(x, -y, z);
+		glVertex3f(-x, -y, z);
 		glVertex3f(-x, y, z);
 	glEnd();
 
 	// LEFT face
 	glColor3f(0.3f, 0.5f, 0.6f);
 	glBegin(GL_TRIANGLES);
-		glVertex3f(-x, -y, -z);
 		glVertex3f(-x, -y, z);
+		glVertex3f(-x, -y, -z);
 		glVertex3f(-x, y, -z);
 	glEnd();
 
@@ -54,16 +56,16 @@ void strippedCube()
 	// RIGHT face
 	glColor3f(0.2f, 0.2f, 0.2f);
 	glBegin(GL_TRIANGLES);
+		glVertex3f(x, -y, z);
 		glVertex3f(x, y, z);
 		glVertex3f(x, y, -z);
-		glVertex3f(x, -y, z);
 	glEnd();
 
 	glColor3f(0.25f, 0.25f, 0.25f);
 	glBegin(GL_TRIANGLES);
-		glVertex3f(x, -y, -z);
-		glVertex3f(x, y, -z);
 		glVertex3f(x, -y, z);
+		glVertex3f(x, y, -z);
+		glVertex3f(x, -y, -z);
 	glEnd();
 
 	// BOTTOM face
@@ -110,6 +112,38 @@ void strippedCube()
 		glVertex3f(-x, y, -z);
 		glVertex3f(x, y, z);
 	glEnd();
+
+	// bottom inverse
+	glColor3f(0.8f, 0.1f, 0.4f);
+	glBegin(GL_TRIANGLES);
+		glVertex3f(-x, y, -z);
+		glVertex3f(x, y, -z);
+		glVertex3f(x, y, z);
+	glEnd();
+
+	glColor3f(0.8f, 0.1f, 0.45f);
+	glBegin(GL_TRIANGLES);
+		glVertex3f(-x, y, -z);
+		glVertex3f(x, y, z);
+		glVertex3f(-x, y, z);
+	glEnd();
+
+	
+	
+	
+	glColor3f(0.7f, 0.2f, 0.5f);
+	glBegin(GL_TRIANGLES);
+		glVertex3f(x, -y, -z);
+		glVertex3f(-x, y, -z);
+		glVertex3f(-x, -y, -z);
+	glEnd();
+
+	glColor3f(0.75f, 0.2f, 0.55f);
+	glBegin(GL_TRIANGLES);
+		glVertex3f(x, -y, -z);
+		glVertex3f(x, y, -z);
+		glVertex3f(-x, y, -z);
+	glEnd();
 }
 
 void display()
@@ -131,12 +165,16 @@ void display()
 	//   - GL_BACK: culls only the back faces.
 	//   - GL_FRONT: culls only the front faces.
 	//   - GL_FRONT_AND_BACK: culls both the front and back faces.
-	glCullFace(GL_BACK);
+	if (isBack) {
+		glCullFace(GL_BACK);
+	} else {
+		glCullFace(GL_FRONT);
+	}
 
 	// Define the order of culling of faces. Possible options are:
 	//  - GL_CCW: counter-clockwise ordering
 	//  - GL_CW: clockwise ordering
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 
 	// Render a cube.
 	strippedCube();
@@ -155,6 +193,10 @@ void keyboard(int key, int x, int y)
 		rX -= 5;
 	} else if (key == GLUT_KEY_UP) {
 		rX += 5;
+	} else if (key == 'a') {
+		isBack = false;
+	} else if (key == 'b') {
+		isBack = true;		
 	}
 		 
 	// Request display update
