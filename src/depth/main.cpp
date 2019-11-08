@@ -14,6 +14,11 @@
 const int WIDTH = 800;
 const int HEIGHT = 800;
 
+float yCor = 0.0f;
+float xCor = 0.0f;
+float distance = -10.0f;
+float rotateTest = 0.0f;
+
 void renderCoordinateAxis()
 {
 	// X axis - green color
@@ -76,10 +81,10 @@ void display()
 	glLoadIdentity();
 
 	// Move the camera away from the origin along the Z axis by 10 pixels.
-	glTranslatef(0, 0, -10.0f);
+	glTranslatef(xCor, yCor, distance);
 
 	// Rotate everything by a few degrees around the Y axis.
-	glRotatef(15.0f, 0.0f, 1.0f, 0.0f);
+	glRotatef(rotateTest, 0.0f, 1.0f, 0.0f);
 
 	// Render the X and Y axis to guide ourselves.
 	renderCoordinateAxis();
@@ -90,6 +95,12 @@ void display()
 
 	// Start the rendering on a new frame
 	glutSwapBuffers();
+
+	// glRotatef(25.0f, 25.0f, 30.0f, 30.0f);
+	// distance -= 0.1f;
+	// xCor -= 0.1f;
+	// yCor -= 0.1f;
+	rotateTest += 1.0f;
 }
 
 void keyboard(unsigned char key, int x, int y)
@@ -117,7 +128,7 @@ void initView()
 	
 	// Reset any existing projection settings and adjust the field-of-view (FOV)
 	glLoadIdentity();
-	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 200.0);
+	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 10000.0);
 	
 	// From now on, every transformation is to be applied on each object, e.g. modelview.
 	glMatrixMode(GL_MODELVIEW);
